@@ -2,6 +2,8 @@ import {Component} from 'react'
 import {Redirect} from 'react-router-dom'
 import Cookies from 'js-cookie'
 
+import ThemeAndSavedVideosContext from '../../context/ThemeAndSavedVideosContext'
+
 import {
   NxtWatchAppContainer,
   FormContainer,
@@ -25,13 +27,8 @@ class LoginRoute extends Component {
     errorMsg: '',
   }
 
-  onChangeUserHandler = event => {
-    this.setState({username: event.target.value})
-    // console.log({[event.target.name]:event.target.value})
-  }
-
-  onChangePasswordHandler = event => {
-    this.setState({password: event.target.value})
+  onChangeHandler = event => {
+    this.setState({[event.target.name]: event.target.value})
   }
 
   onSubmitSuccess = jwtToken => {
@@ -47,7 +44,7 @@ class LoginRoute extends Component {
   onSubmitForm = async event => {
     event.preventDefault()
     const {username, password} = this.state
-    console.log(username)
+    // console.log(username)
     const url = 'https://apis.ccbp.in/login'
     const userCredentials = {username, password}
     const options = {
@@ -56,7 +53,7 @@ class LoginRoute extends Component {
     }
     const loginResponse = await fetch(url, options)
     const loginData = await loginResponse.json()
-    console.log(loginResponse)
+    // console.log(loginResponse)
     if (loginResponse.ok === true) {
       this.onSubmitSuccess(loginData.jwt_token)
     } else {
@@ -64,37 +61,53 @@ class LoginRoute extends Component {
     }
   }
 
-  renderUsernameField = () => {
+  renderUsernameField = isLightTheme => {
     const {username} = this.state
 
+    const labelTextColor = isLightTheme ? '#424242' : '#ffffff'
+    const inputTextColor = isLightTheme ? '#909090' : '#cccccc'
+    const borderColor = isLightTheme ? '#cccccc' : '#94a3b8'
     return (
       <>
-        <InputLabel htmlFor="username">USERNAME</InputLabel>
+        <InputLabel htmlFor="username" labelTextColor={labelTextColor}>
+          USERNAME
+        </InputLabel>
         <UserInput
           id="username"
           type="text"
           value={username}
-          onChange={this.onChangeUserHandler}
           name="username"
+          onChange={this.onChangeHandler}
           placeholder="Username"
+          inputTextColor={inputTextColor}
+          borderColor={borderColor}
         />
       </>
     )
   }
 
-  renderPasswordField = () => {
+  renderPasswordField = isLightTheme => {
+    const labelTextColor = isLightTheme ? '#424242' : '#ffffff'
+    const inputTextColor = isLightTheme ? '#909090' : '#cccccc'
+    const checkboxTextColor = isLightTheme ? '#212121' : '#ffffff'
+    const borderColor = isLightTheme ? '#cccccc' : '#94a3b8'
+
     const {password, showPassword} = this.state
     const inputType = showPassword ? 'text' : 'password'
     return (
       <>
-        <InputLabel htmlFor="password">PASSWORD</InputLabel>
+        <InputLabel htmlFor="password" labelTextColor={labelTextColor}>
+          PASSWORD
+        </InputLabel>
         <UserInput
           id="password"
           type={inputType}
           value={password}
-          placeholder="Password"
           name="password"
-          onChange={this.onChangePasswordHandler}
+          placeholder="Password"
+          onChange={this.onChangeHandler}
+          inputTextColor={inputTextColor}
+          borderColor={borderColor}
         />
         <CheckboxContainer>
           <Checkbox
@@ -102,7 +115,12 @@ class LoginRoute extends Component {
             id="checkbox"
             onChange={this.onChangeCheckbox}
           />
-          <CheckboxLabel htmlFor="checkbox">Show Password</CheckboxLabel>
+          <CheckboxLabel
+            htmlFor="checkbox"
+            checkboxTextColor={checkboxTextColor}
+          >
+            Show Password
+          </CheckboxLabel>
         </CheckboxContainer>
       </>
     )
@@ -118,20 +136,38 @@ class LoginRoute extends Component {
     if (jwtToken !== undefined) {
       return <Redirect to="/" />
     }
-
     return (
-      <NxtWatchAppContainer>
-        <FormContainer onSubmit={this.onSubmitForm}>
-          <ImageLogo
-            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-            alt="website logo"
-          />
-          <InputContainer>{this.renderUsernameField()}</InputContainer>
-          <InputContainer>{this.renderPasswordField()}</InputContainer>
-          <LoginBtn type="submit">Login</LoginBtn>
-          {showErrorMsg && <ErrorMsg>*{errorMsg}</ErrorMsg>}
-        </FormContainer>
-      </NxtWatchAppContainer>
+      <ThemeAndSavedVideosContext.Consumer>
+        {value => {
+          const {isLightTheme} = value
+          const bgColor = isLightTheme ? '#f1f1f1' : '#231f20'
+          const loginFormBgColor = isLightTheme ? '#ffffff' : '#000000'
+          const boxShadow = isLightTheme ? '#d4d2d2' : 'none'
+          const websiteLogo = isLightTheme
+            ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+            : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+
+          return (
+            <NxtWatchAppContainer bgColor={bgColor}>
+              <FormContainer
+                onSubmit={this.onSubmitForm}
+                loginFormBgColor={loginFormBgColor}
+                boxShadow={boxShadow}
+              >
+                <ImageLogo src={websiteLogo} alt="website logo" />
+                <InputContainer>
+                  {this.renderUsernameField(isLightTheme)}
+                </InputContainer>
+                <InputContainer>
+                  {this.renderPasswordField(isLightTheme)}
+                </InputContainer>
+                <LoginBtn type="submit">Login</LoginBtn>
+                {showErrorMsg && <ErrorMsg>* {errorMsg}</ErrorMsg>}
+              </FormContainer>
+            </NxtWatchAppContainer>
+          )
+        }}
+      </ThemeAndSavedVideosContext.Consumer>
     )
   }
 }

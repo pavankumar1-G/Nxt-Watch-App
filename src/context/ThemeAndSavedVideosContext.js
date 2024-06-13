@@ -6,7 +6,7 @@ const ThemeAndSavedVideosContext = React.createContext({
   existingTab: 'Home',
   onTaggleTheme: () => {},
   onChangeTab: () => {},
-  onSaveVideo: () => {},
+  onSavedAndUnsavedVideo: () => {},
   onRemoveVideo: () => {},
 })
 export default ThemeAndSavedVideosContext

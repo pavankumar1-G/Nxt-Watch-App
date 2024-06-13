@@ -5,7 +5,7 @@ import Popup from 'reactjs-popup'
 import {BsMoon, BsBrightnessHigh} from 'react-icons/bs'
 import {FiLogOut} from 'react-icons/fi'
 
-import ThemeAndSavedVideosContext from '../../NxtWatchContext/ThemeAndSavedVideosContext'
+import ThemeAndSavedVideosContext from '../../context/ThemeAndSavedVideosContext'
 
 import {
   HeaderContainer,
@@ -27,12 +27,14 @@ const Header = props => (
   <ThemeAndSavedVideosContext.Consumer>
     {value => {
       const {isLightTheme, onTaggleTheme} = value
-      const logoutBgColor = isLightTheme ? '#f9f9f9' : '#231f20'
-      const textColor = isLightTheme ? ' #3b82f6' : '#f9f9f9'
-      const popupBgColor = isLightTheme ? '#ffffff' : '#212121'
+      const logoutBgColor = isLightTheme ? '#ffffff' : '#231f20'
+      const textBorderColor = isLightTheme ? ' #3b82f6' : '#f9f9f9'
       const qsTextColor = isLightTheme ? '#00306e' : '#ebebeb'
-      const iconColor = isLightTheme ? ' #f1f1f1' : '#231f20'
-      const headerBgColor = isLightTheme ? '#ffffff' : '#424242'
+      const popupBgColor = isLightTheme ? '#ffffff' : '#0f0f0f'
+      const headerBgColor = isLightTheme ? '#ffffff' : '#313131'
+      const btnBorderColor = isLightTheme ? '#cccccc' : '#94a3b8'
+      const btnTextColor = isLightTheme ? '#cccccc' : '#94a3b8'
+
       const onChangeThemeBtn = () => {
         onTaggleTheme()
       }
@@ -63,7 +65,7 @@ const Header = props => (
               {isLightTheme ? (
                 <BsMoon size={30} />
               ) : (
-                <BsBrightnessHigh size={30} />
+                <BsBrightnessHigh size={30} color="#ffffff" />
               )}
             </ThemeBtn>
             <ProfileIcon
@@ -72,12 +74,12 @@ const Header = props => (
             />
 
             <Popup
-              madal
+              modal
               trigger={
                 <LogoutBtn
                   type="button"
                   logoutBgColor={logoutBgColor}
-                  textColor={textColor}
+                  textBorderColor={textBorderColor}
                 >
                   Logout
                 </LogoutBtn>
@@ -93,6 +95,7 @@ const Header = props => (
                       type="button"
                       data-testid="closeButton"
                       onClick={() => close()}
+                      btnTextColor={btnTextColor}
                     >
                       Cancel
                     </CloseButton>
@@ -105,23 +108,27 @@ const Header = props => (
             </Popup>
 
             <Popup
-              madal
+              modal
               trigger={
-                <LogoutIconBtn type="button" iconColor={iconColor}>
-                  <FiLogOut size={30} />
+                <LogoutIconBtn type="button" aria-label="logout">
+                  <FiLogOut
+                    size={25}
+                    color={isLightTheme ? '#231f20' : '#ffffff'}
+                  />
                 </LogoutIconBtn>
               }
             >
               {close => (
                 <LogoutPopupContainer popupBgColor={popupBgColor}>
                   <LogoutQuestions qsTextColor={qsTextColor}>
-                    Are you sure you want to logout?
+                    Are you sure, you want to logout?
                   </LogoutQuestions>
                   <LogoutButtonContainer>
                     <CloseButton
                       type="button"
                       data-testid="closeButton"
                       onClick={() => close()}
+                      btnTextColor={btnTextColor}
                     >
                       Cancel
                     </CloseButton>

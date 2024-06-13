@@ -3,13 +3,14 @@ import {Component} from 'react'
 import {Switch, Route, Redirect} from 'react-router-dom'
 
 import ProtectedRoute from './components/ProtectedRoute'
-import ThemeAndSavedVideosContext from './NxtWatchContext/ThemeAndSavedVideosContext'
+import ThemeAndSavedVideosContext from './context/ThemeAndSavedVideosContext'
 
 import LoginRoute from './components/LoginRoute'
 import HomeRoute from './components/HomeRoute'
 import TrendingRoute from './components/TrendingRoute'
 import GamingRoute from './components/GamingRoute'
 import SavedVideosRoute from './components/SavedVideosRoute'
+// import AllVideosPlayingView from './components/AllVideosPlayingView'
 import AllVideosView from './components/AllVideosView'
 import NotFoundRoute from './components/NotFoundRoute'
 
@@ -31,7 +32,7 @@ class App extends Component {
     this.setState({existingTab: tab})
   }
 
-  onSaveVideo = video => {
+  onSavedAndUnsavedVideo = video => {
     const {savedVideos} = this.state
     const indexForSimilarVideo = savedVideos.findIndex(
       eachVideo => eachVideo.id === video.id,
@@ -55,6 +56,7 @@ class App extends Component {
 
   render() {
     const {isLightTheme, savedVideos, existingTab} = this.state
+    console.log(savedVideos)
     return (
       <ThemeAndSavedVideosContext.Provider
         value={{
@@ -63,21 +65,21 @@ class App extends Component {
           existingTab,
           onTaggleTheme: this.onTaggleTheme,
           onChangeTab: this.onChangeTab,
-          onSaveVideo: this.onSaveVideo,
+          onSavedAndUnsavedVideo: this.onSavedAndUnsavedVideo,
           onRemoveVideo: this.onRemoveVideo,
         }}
       >
         <Switch>
           <Route exact path="/login" component={LoginRoute} />
           <ProtectedRoute exact path="/" component={HomeRoute} />
-          <ProtectedRoute exact path="/trending" component={TrendingRoute} />
-          <ProtectedRoute exact path="/gaming" component={GamingRoute} />
+          <ProtectedRoute exact path="/videos/:id" component={AllVideosView} />
           <ProtectedRoute
             exact
             path="/saved-videos"
             component={SavedVideosRoute}
           />
-          <ProtectedRoute exact path="/videos/:id" component={AllVideosView} />
+          <ProtectedRoute exact path="/trending" component={TrendingRoute} />
+          <ProtectedRoute exact path="/gaming" component={GamingRoute} />
           <Route path="/not-found" component={NotFoundRoute} />
           <Redirect to="/not-found" />
         </Switch>

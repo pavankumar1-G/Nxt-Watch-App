@@ -1,33 +1,34 @@
 import ThemeAndSavedVideosContext from '../../context/ThemeAndSavedVideosContext'
 
 import {
-  TrendingVideoLink,
-  TrendingVideoItem,
-  ThumbnailImage,
-  TrendingVideoDetailsContainer,
-  ProfileImage,
-  ChannelDetailsContainer,
-  TrendingVideoTitle,
+  SavedVideoLink,
+  SavedVideoItem,
+  ThumbnailImg,
+  SavedVideoDetailsContainer,
+  ProfileImg,
+  ContentContainer,
+  Title,
   SocialDetailsContainer,
   ChannelName,
   Dot1,
   ViewsAndPublishedContainer,
-  ViewsCount,
+  Views,
   Dot2,
   Published,
 } from './styledComponents'
 
-const TrendingVideoCard = props => {
-  const {trendingVideosDetails} = props
+const SavedVideoCard = props => {
+  const {savedVideoDetails} = props
   const {
     id,
-    title,
     thumbnailUrl,
-    profileImageUrl,
+    title,
     name,
+    profileImageUrl,
     viewCount,
     publishedAt,
-  } = trendingVideosDetails
+  } = savedVideoDetails
+
   return (
     <ThemeAndSavedVideosContext.Consumer>
       {value => {
@@ -37,32 +38,30 @@ const TrendingVideoCard = props => {
 
         return (
           <>
-            <TrendingVideoLink to={`/videos/${id}`}>
-              <TrendingVideoItem>
-                <ThumbnailImage src={thumbnailUrl} alt="video thumbnail" />
-                <TrendingVideoDetailsContainer>
-                  <ProfileImage src={profileImageUrl} alt="channel logo" />
-                  <ChannelDetailsContainer>
-                    <TrendingVideoTitle titleTextColor={titleTextColor}>
-                      {title}
-                    </TrendingVideoTitle>
+            <SavedVideoLink to={`/videos/${id}`}>
+              <SavedVideoItem>
+                <ThumbnailImg src={thumbnailUrl} alt="video thumbnail" />
+                <SavedVideoDetailsContainer>
+                  <ProfileImg src={profileImageUrl} alt="channel logo" />
+                  <ContentContainer>
+                    <Title titleTextColor={titleTextColor}>{title}</Title>
                     <SocialDetailsContainer socialTextColor={socialTextColor}>
                       <ChannelName>{name}</ChannelName>
                       <Dot1>&#8226;</Dot1>
                       <ViewsAndPublishedContainer>
-                        <ViewsCount>{viewCount} views</ViewsCount>
+                        <Views>{viewCount} views</Views>
                         <Dot2>&#8226;</Dot2>
                         <Published>{publishedAt}</Published>
                       </ViewsAndPublishedContainer>
                     </SocialDetailsContainer>
-                  </ChannelDetailsContainer>
-                </TrendingVideoDetailsContainer>
-              </TrendingVideoItem>
-            </TrendingVideoLink>
+                  </ContentContainer>
+                </SavedVideoDetailsContainer>
+              </SavedVideoItem>
+            </SavedVideoLink>
           </>
         )
       }}
     </ThemeAndSavedVideosContext.Consumer>
   )
 }
-export default TrendingVideoCard
+export default SavedVideoCard

@@ -1,7 +1,10 @@
 import {Component} from 'react'
 import {AiFillHome} from 'react-icons/ai'
+import {HiFire} from 'react-icons/hi'
+import {SiYoutubegaming} from 'react-icons/si'
+import {CgPlayListAdd} from 'react-icons/cg'
 
-import ThemeAndSavedVideosContext from '../../NxtWatchContext/ThemeAndSavedVideosContext'
+import ThemeAndSavedVideosContext from '../../context/ThemeAndSavedVideosContext'
 
 import {
   NavbarMenuContainer,
@@ -22,8 +25,8 @@ class SideNavbarMenu extends Component {
     <ThemeAndSavedVideosContext.Consumer>
       {value => {
         const {isLightTheme, existingTab, onChangeTab} = value
-        const navbarContainerBgColor = isLightTheme ? '#ffffff' : '#424242'
-        const existingTabBgColor = isLightTheme ? '#f1f5f9' : ' #606060'
+        const navbarContainerBgColor = isLightTheme ? '#ffffff' : '#313131'
+        const existingTabBgColor = isLightTheme ? '#e2e8f0' : ' #606060'
         const textColor = isLightTheme ? '#231f20' : '#f1f1f1'
 
         const onClickHomeTab = () => {
@@ -51,8 +54,8 @@ class SideNavbarMenu extends Component {
                     }
                   >
                     <AiFillHome
-                      size={30}
-                      iconcolor={existingTab === 'Home' ? '#ff0b37' : '#909090'}
+                      size={25}
+                      color={existingTab === 'Home' ? '#ff0b37' : '#909090'}
                     />
                     <NavbarText textColor={textColor}>Home</NavbarText>
                   </NavbarMenuItemContainer>
@@ -66,11 +69,9 @@ class SideNavbarMenu extends Component {
                       existingTab === 'Trending' ? existingTabBgColor : 'none'
                     }
                   >
-                    <AiFillHome
-                      size={30}
-                      iconcolor={
-                        existingTab === 'Trending' ? '#ff0b37' : '#909090'
-                      }
+                    <HiFire
+                      size={25}
+                      color={existingTab === 'Trending' ? '#ff0b37' : '#909090'}
                     />
                     <NavbarText textColor={textColor}>Trending</NavbarText>
                   </NavbarMenuItemContainer>
@@ -84,11 +85,9 @@ class SideNavbarMenu extends Component {
                       existingTab === 'Gaming' ? existingTabBgColor : 'none'
                     }
                   >
-                    <AiFillHome
-                      size={30}
-                      iconcolor={
-                        existingTab === 'Gaming' ? '#ff0b37' : '#909090'
-                      }
+                    <SiYoutubegaming
+                      size={25}
+                      color={existingTab === 'Gaming' ? '#ff0b37' : '#909090'}
                     />
                     <NavbarText textColor={textColor}>Gaming</NavbarText>
                   </NavbarMenuItemContainer>
@@ -104,9 +103,9 @@ class SideNavbarMenu extends Component {
                         : 'none'
                     }
                   >
-                    <AiFillHome
-                      size={30}
-                      iconcolor={
+                    <CgPlayListAdd
+                      size={25}
+                      color={
                         existingTab === 'SavedVideos' ? '#ff0b37' : '#909090'
                       }
                     />
