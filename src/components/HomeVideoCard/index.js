@@ -1,3 +1,4 @@
+import {formatDistanceToNow} from 'date-fns'
 import {Link} from 'react-router-dom'
 
 import ThemeAndSavedVideosContext from '../../context/ThemeAndSavedVideosContext'
@@ -35,6 +36,7 @@ const HomeVideoCard = props => {
         const {isLightTheme} = value
         const titleColor = isLightTheme ? '#313131' : '#f9f9f9'
         const nameCountPublishedColor = isLightTheme ? '#424242' : '#64748b'
+        const formatedDate = formatDistanceToNow(new Date(publishedAt))
 
         return (
           <Link to={`/videos/${id}`} className="item-link">
@@ -52,7 +54,7 @@ const HomeVideoCard = props => {
                     <ViewAndPubContainer>
                       <Views>{viewCount} views</Views>
                       <Dot2>&#8226;</Dot2>
-                      <Published>{publishedAt}</Published>
+                      <Published>{formatedDate}</Published>
                     </ViewAndPubContainer>
                   </NameCountPublishedContainer>
                 </TitleAndNameCountPublished>

@@ -1,6 +1,7 @@
 import ReactPlayer from 'react-player'
 import {AiOutlineLike, AiOutlineDislike} from 'react-icons/ai'
 import {BiListPlus} from 'react-icons/bi'
+import {formatDistanceToNow} from 'date-fns'
 
 import ThemeAndSavedVideosContext from '../../context/ThemeAndSavedVideosContext'
 
@@ -63,7 +64,7 @@ const AllVideosPlayingView = props => {
         } else {
           isSaved = true
         }
-        const savedColor = isSaved ? '#00306e' : 'statusColor'
+        const formatedDate = formatDistanceToNow(new Date(publishedAt))
 
         const onClickSavedAndUnsaved = () => {
           onSavedAndUnsavedVideo(videoItemDeta)
@@ -79,7 +80,7 @@ const AllVideosPlayingView = props => {
               <ViewsAndPublishedContainer statusColor={statusColor}>
                 <ViewsCount>{viewCount} views</ViewsCount>
                 <Dot>&#8226;</Dot>
-                <PublishedAt>{publishedAt}</PublishedAt>
+                <PublishedAt>{formatedDate}</PublishedAt>
               </ViewsAndPublishedContainer>
               <SocialButtonsContainer>
                 <SocialButton

@@ -1,3 +1,4 @@
+import {formatDistanceToNow} from 'date-fns'
 import ThemeAndSavedVideosContext from '../../context/ThemeAndSavedVideosContext'
 
 import {
@@ -35,6 +36,7 @@ const SavedVideoCard = props => {
         const {isLightTheme} = value
         const titleTextColor = isLightTheme ? '#212121' : '#ffffff'
         const socialTextColor = isLightTheme ? '#616e7c' : '#94a3b8'
+        const formatedDate = formatDistanceToNow(new Date(publishedAt))
 
         return (
           <>
@@ -51,7 +53,7 @@ const SavedVideoCard = props => {
                       <ViewsAndPublishedContainer>
                         <Views>{viewCount} views</Views>
                         <Dot2>&#8226;</Dot2>
-                        <Published>{publishedAt}</Published>
+                        <Published>{formatedDate}</Published>
                       </ViewsAndPublishedContainer>
                     </SocialDetailsContainer>
                   </ContentContainer>
